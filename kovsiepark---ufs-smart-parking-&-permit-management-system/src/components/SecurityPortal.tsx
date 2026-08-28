@@ -16,7 +16,8 @@ import {
   Check, 
   ArrowRight,
   Sparkles,
-  CreditCard
+  CreditCard,
+  ArrowLeft
 } from 'lucide-react';
 import { useParking } from '../context/ParkingContext';
 
@@ -32,7 +33,8 @@ export const SecurityPortal: React.FC = () => {
     runAlprScan,
     permits,
     visitors,
-    activeNavTab 
+    activeNavTab,
+    setActiveNavTab 
   } = useParking();
 
   const [activeSecTab, setActiveSecTab] = useState<'all' | 'scanner' | 'grace' | 'citations' | 'lookup'>('all');
@@ -123,6 +125,17 @@ export const SecurityPortal: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto pb-12">
+      {/* Back to Dashboard Navigation Link */}
+      <div className="flex items-center justify-between">
+        <button
+          onClick={() => setActiveNavTab('dashboard')}
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-semibold transition-all shadow-sm group cursor-pointer"
+        >
+          <ArrowLeft className="w-4 h-4 text-amber-400 transform group-hover:-translate-x-1 transition-transform" />
+          <span>Back to Dashboard</span>
+        </button>
+      </div>
+
       {/* Banner Header */}
       <div className="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl text-white">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

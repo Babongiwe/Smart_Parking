@@ -31,17 +31,22 @@ export const VisitorDashboard: React.FC = () => {
     setIsSupportDeskOpen
   } = useParking();
 
-  // Find visitor reservations for this user
+  // Find visitor reservations for this user safely
   const userReservations = visitors.filter(
     (v) => 
-      v.visitorName.toLowerCase().includes(currentUser.name.toLowerCase()) || 
-      currentUser.name.toLowerCase().includes(v.visitorName.toLowerCase()) ||
-      v.phone.includes(currentUser.identifier) ||
-      currentUser.identifier === '9204155123088'
+      (v.visitorName && currentUser?.name && (
+        v.visitorName.toLowerCase().includes(currentUser.name.toLowerCase()) || 
+        currentUser.name.toLowerCase().includes(v.visitorName.toLowerCase())
+      )) ||
+      (v.phone && currentUser?.identifier && v.phone.includes(currentUser.identifier)) ||
+      currentUser?.identifier === '9204155123088'
   );
 
   const activePass: VisitorReservation | undefined = userReservations[0] || visitors[0];
-  const visitorZones = zones.filter((z) => z.authorizedRoles.includes('visitor'));
+  const visitorZones = zones.filter((z) => 
+    z.category === 'Visitor Parking' || 
+    z.permittedCategories?.some(cat => cat.toLowerCase().includes('visitor'))
+  );
 
   return (
     <div className="space-y-6 pb-12">

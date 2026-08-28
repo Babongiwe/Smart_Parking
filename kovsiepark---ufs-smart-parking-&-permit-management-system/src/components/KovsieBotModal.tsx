@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Send, Bot, User, MapPin } from 'lucide-react';
+import { X, Sparkles, Send, Bot, User, MapPin, ArrowLeft } from 'lucide-react';
 import { useParking } from '../context/ParkingContext';
 
 export const KovsieBotModal: React.FC = () => {
@@ -66,11 +66,11 @@ export const KovsieBotModal: React.FC = () => {
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => setIsKovsieBotOpen(false)}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-1 transition-colors font-medium mr-1"
-              title="Go Back / Exit Assistant"
+              className="p-1.5 px-2.5 rounded-xl text-slate-300 hover:text-amber-400 bg-slate-900 hover:bg-slate-800 border border-slate-800 flex items-center gap-1.5 transition-all font-semibold mr-1 cursor-pointer group"
+              title="Go Back to Dashboard"
             >
-              <X className="w-4 h-4" />
-              <span className="text-[11px] hidden sm:inline">Close / Back</span>
+              <ArrowLeft className="w-4 h-4 text-amber-400 transform group-hover:-translate-x-1 transition-transform" />
+              <span className="text-xs">Back</span>
             </button>
             <div className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
               <Bot className="w-5 h-5" />
@@ -85,10 +85,10 @@ export const KovsieBotModal: React.FC = () => {
           </div>
           <button
             onClick={() => setIsKovsieBotOpen(false)}
-            className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold flex items-center gap-1 transition-colors"
+            className="p-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors cursor-pointer"
+            title="Close"
           >
-            <span>Cancel</span>
-            <X className="w-3.5 h-3.5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 

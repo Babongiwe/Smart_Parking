@@ -15,7 +15,8 @@ import {
   RotateCcw, 
   Trash2,
   ShieldCheck,
-  Sparkles
+  Sparkles,
+  ArrowLeft
 } from 'lucide-react';
 import { useParking } from '../context/ParkingContext';
 import { ApplicationStatus, PermitStatus, UserRole } from '../types';
@@ -31,7 +32,8 @@ export const AdminPortal: React.FC = () => {
     gracePeriods, 
     visitors, 
     addNotification,
-    activeNavTab 
+    activeNavTab,
+    setActiveNavTab 
   } = useParking();
 
   const [activeTab, setActiveTab] = useState<'applications' | 'registry' | 'broadcast'>('applications');
@@ -67,21 +69,23 @@ export const AdminPortal: React.FC = () => {
 
   const filteredApplications = applications.filter((a) => {
     const matchesFilter = appFilter === 'all' || a.status === appFilter;
+    const query = (appSearch || '').toLowerCase();
     const matchesSearch =
-      a.applicantName.toLowerCase().includes(appSearch.toLowerCase()) ||
-      a.applicantIdentifier.includes(appSearch) ||
-      a.vehiclePlate.toLowerCase().includes(appSearch.toLowerCase()) ||
-      a.id.toLowerCase().includes(appSearch.toLowerCase());
+      (a.applicantName && a.applicantName.toLowerCase().includes(query)) ||
+      (a.applicantIdentifier && a.applicantIdentifier.toLowerCase().includes(query)) ||
+      (a.vehiclePlate && a.vehiclePlate.toLowerCase().includes(query)) ||
+      (a.id && a.id.toLowerCase().includes(query));
     return matchesFilter && matchesSearch;
   });
 
   const filteredPermits = permits.filter((p) => {
     const matchesFilter = permitFilter === 'all' || p.status === permitFilter;
+    const query = (permitSearch || '').toLowerCase();
     const matchesSearch =
-      p.holderName.toLowerCase().includes(permitSearch.toLowerCase()) ||
-      p.holderIdentifier.includes(permitSearch) ||
-      p.assignedPlate.toLowerCase().includes(permitSearch.toLowerCase()) ||
-      p.permitNumber.toLowerCase().includes(permitSearch.toLowerCase());
+      (p.holderName && p.holderName.toLowerCase().includes(query)) ||
+      (p.holderIdentifier && p.holderIdentifier.toLowerCase().includes(query)) ||
+      (p.assignedPlate && p.assignedPlate.toLowerCase().includes(query)) ||
+      (p.permitNumber && p.permitNumber.toLowerCase().includes(query));
     return matchesFilter && matchesSearch;
   });
 
@@ -97,6 +101,17 @@ export const AdminPortal: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto pb-12">
+      {/* Back to Dashboard Navigation Link */}
+      <div className="flex items-center justify-between">
+        <button
+          onClick={() => setActiveNavTab('dashboard')}
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-semibold transition-all shadow-sm group cursor-pointer"
+        >
+          <ArrowLeft className="w-4 h-4 text-amber-400 transform group-hover:-translate-x-1 transition-transform" />
+          <span>Back to Dashboard</span>
+        </button>
+      </div>
+
       {/* 1. Header Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm text-white">
